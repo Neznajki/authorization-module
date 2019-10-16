@@ -1,3 +1,3 @@
-#index:
-#    path: /
-#    controller: App\Controller\DefaultController::index
+jsonRpc:
+    path: /jsonRpc
+    controller: App\Controller\TestController::testApiAction
