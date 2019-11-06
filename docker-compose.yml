@@ -2,7 +2,7 @@ version: "3.3"
 
 services:
     authorization-module:
-        hostname: authorization-module.local
+        hostname: authorization-module.local_network
         container_name: authorization-module
         image: docker.pkg.github.com/neznajki/docker-php73/apache:latest
         volumes:
@@ -19,7 +19,7 @@ services:
             - 8.8.8.8
             - 10.252.252.252
         environment:
-            - VIRTUAL_HOST=authorization-module.local
+            - VIRTUAL_HOST=authorization-module.local_network
             - HTTPS_METHOD=noredirect
             - APACHE_DOCUMENT_ROOT=/www/default/public/
             - API_SALT=something_random_here
