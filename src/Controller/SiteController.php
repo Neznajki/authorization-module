@@ -41,8 +41,8 @@ class SiteController extends AbstractController
      */
     public function indexAction()
     {
-        if (array_key_exists(Authorization::PRIVATE_AUTH_TOKEN, $_SESSION)) {
-            $generatedToken = $_SESSION[Authorization::PRIVATE_AUTH_TOKEN];
+        if (array_key_exists(AuthorizationController::PRIVATE_AUTH_TOKEN, $_SESSION)) {
+            $generatedToken = $_SESSION[AuthorizationController::PRIVATE_AUTH_TOKEN];
             $pendingData    = $this->pendingLoginRepository->findOneBy(['generatedToken' => $generatedToken]);
 
             if ($pendingData && ! $pendingData->isConfirmed()) {

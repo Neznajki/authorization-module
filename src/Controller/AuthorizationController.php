@@ -18,7 +18,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
-class Authorization extends AbstractController
+class AuthorizationController extends AbstractController
 {
     const PRIVATE_AUTH_TOKEN = 'private_auth_token';
     /** @var UserService */
@@ -29,7 +29,7 @@ class Authorization extends AbstractController
     protected $loginFormAuthenticator;
 
     /**
-     * Authorization constructor.
+     * AuthorizationController constructor.
      * @param UserService $userService
      * @param AuthorizationCheckerInterface $authorizationChecker
      * @param LoginFormAuthenticator $loginFormAuthenticator
