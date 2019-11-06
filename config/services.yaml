@@ -1,5 +1,8 @@
 imports:
-    - { resource: '@JsonRpcBundle/Resources/config/services.yaml' }
+    - { resource: 'api/jsonRpc/services.yaml' }
+    - { resource: 'services/repository.yaml' }
+    - { resource: '@JsonRpcAuthBundle/Resources/config/services.yaml' }
+    - { resource: '@JsonRpcServerBundle/Resources/config/services.yaml' }
 
 # This file is the entry point to configure your own services.
 # Files in the packages/ subdirectory configure your dependencies.
@@ -21,7 +24,7 @@ services:
     # this creates a service per class whose id is the fully-qualified class name
     App\:
         resource: '../src/*'
-        exclude: '../src/{DependencyInjection,Entity,Migrations,Tests,Kernel.php,JsonRpcBundle}'
+        exclude: '../src/{DependencyInjection,Entity,Repository,Migrations,Tests,Kernel.php,Api}'
 
     # controllers are imported separately to make sure services can be injected
     # as action arguments even if you don't extend any base controller class
@@ -29,5 +32,13 @@ services:
         resource: '../src/Controller'
         tags: ['controller.service_arguments']
 
-    # add more service definitions when explicit configuration is needed
-    # please note that last definitions always *replace* previous ones
+    Symfony\Component\HttpKernel\Kernel: '@kernel'
+
+    Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface:
+        class: App\Service\PasswordEncryptService
+
+    App\Service\RegistryService:
+        class: App\Service\RegistryService
+        arguments:
+            - '%env(GUI_URI)%'
+

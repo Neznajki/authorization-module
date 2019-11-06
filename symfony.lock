@@ -87,6 +87,12 @@
     "neznajki/json-rpc-authorization": {
         "version": "v0.1.1"
     },
+    "neznajki/json-rpc-common": {
+        "version": "v1.1"
+    },
+    "neznajki/json-rpc-server": {
+        "version": "v0.1.0"
+    },
     "ocramius/package-versions": {
         "version": "1.5.1"
     },
@@ -101,6 +107,21 @@
     },
     "psr/log": {
         "version": "1.1.0"
+    },
+    "sensio/framework-extra-bundle": {
+        "version": "5.2",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "master",
+            "version": "5.2",
+            "ref": "fb7e19da7f013d0d422fa9bce16f5c510e27609b"
+        },
+        "files": [
+            "config/packages/sensio_framework_extra.yaml"
+        ]
+    },
+    "symfony/asset": {
+        "version": "v4.3.5"
     },
     "symfony/cache": {
         "version": "v4.3.4"
@@ -265,6 +286,29 @@
     "symfony/stopwatch": {
         "version": "v4.3.4"
     },
+    "symfony/translation-contracts": {
+        "version": "v1.1.7"
+    },
+    "symfony/twig-bridge": {
+        "version": "v4.3.5"
+    },
+    "symfony/twig-bundle": {
+        "version": "3.3",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "master",
+            "version": "3.3",
+            "ref": "7e5911186d596214c14dd28305485a3c143ee746"
+        },
+        "files": [
+            "config/packages/twig.yaml",
+            "config/routes/dev/twig.yaml",
+            "templates/base.html.twig"
+        ]
+    },
+    "symfony/twig-pack": {
+        "version": "v1.0.0"
+    },
     "symfony/var-dumper": {
         "version": "v4.3.5"
     },
@@ -273,6 +317,12 @@
     },
     "symfony/yaml": {
         "version": "v4.3.4"
+    },
+    "twig/extra-bundle": {
+        "version": "v2.12.1"
+    },
+    "twig/twig": {
+        "version": "v2.12.1"
     },
     "zendframework/zend-code": {
         "version": "3.3.2"

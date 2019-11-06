@@ -22,6 +22,7 @@ services:
             - VIRTUAL_HOST=authorization-module.local
             - HTTPS_METHOD=noredirect
             - APACHE_DOCUMENT_ROOT=/www/default/public/
+            - API_SALT=something_random_here
             - HOME=$HOME
 
 networks:

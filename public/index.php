@@ -5,6 +5,13 @@ use Symfony\Component\HttpFoundation\Request;
 
 require dirname(__DIR__) . '/config/bootstrap.php';
 
+if($_SERVER['HTTP_X_FORWARDED_PROTO'] == 'https')
+{
+    $_SERVER['HTTPS'] = 'on';
+    $_SERVER['SERVER_PORT'] = 443;
+    $_SERVER['REQUEST_SCHEME'] = 'https';
+}
+
 if ($_SERVER['APP_DEBUG']) {
     umask(0000);
 
@@ -22,5 +29,6 @@ if ($trustedHosts = $_SERVER['TRUSTED_HOSTS'] ?? $_ENV['TRUSTED_HOSTS'] ?? false
 $kernel = new Kernel($_SERVER['APP_ENV'], (bool) $_SERVER['APP_DEBUG']);
 $request = Request::createFromGlobals();
 $response = $kernel->handle($request);
+//dd($response);
 $response->send();
 $kernel->terminate($request, $response);

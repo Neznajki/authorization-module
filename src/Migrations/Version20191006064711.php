@@ -54,18 +54,6 @@ final class Version20191006064711 extends AbstractMigration
   CONSTRAINT `user_session_ibfk_2` FOREIGN KEY (`user_meta_info_id`) REFERENCES `user_meta_info` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4");
 
-        $this->addSql("CREATE TABLE `user_login_fails` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `user_id` int(10) unsigned NOT NULL,
-  `user_meta_info_id` int(10) unsigned NOT NULL,
-  `activity_time` datetime NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `user_id` (`user_id`),
-  KEY `user_meta_info_id` (`user_meta_info_id`),
-  CONSTRAINT `user_login_fails_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`),
-  CONSTRAINT `user_login_fails_ibfk_2` FOREIGN KEY (`user_meta_info_id`) REFERENCES `user_meta_info` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4");
-
         $this->addSql("CREATE TABLE `user_activity` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `user_session_id` int(10) unsigned NOT NULL,
@@ -74,11 +62,32 @@ final class Version20191006064711 extends AbstractMigration
   KEY `user_session_id` (`user_session_id`),
   CONSTRAINT `user_activity_ibfk_1` FOREIGN KEY (`user_session_id`) REFERENCES `user_session` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4");
+
+        $this->addSql("CREATE TABLE `user_pending_login` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `user_meta_info_id` int(10) unsigned NOT NULL,
+  `user_session_id` int(10) unsigned DEFAULT NULL,
+  `generated_token` varchar(64) NOT NULL,
+  `redirect_url` varchar(128) NOT NULL,
+  `session_transfer_url` varchar(128) NOT NULL,
+  `created` datetime NOT NULL,
+  `last_refresh_time` datetime NOT NULL,
+  `confirmed` tinyint(4) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `user_meta_info_id` (`user_meta_info_id`),
+  KEY `user_session_id` (`user_session_id`),
+  CONSTRAINT `user_pending_login_ibfk_1` FOREIGN KEY (`user_meta_info_id`) REFERENCES `user_meta_info` (`id`),
+  CONSTRAINT `user_pending_login_ibfk_2` FOREIGN KEY (`user_session_id`) REFERENCES `user_session` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4");
     }
 
     public function down(Schema $schema) : void
     {
-        // this down() migration is auto-generated, please modify it to your needs
+        $this->addSql('DROP TABLE IF EXISTS `user_pending_login`');
+        $this->addSql('DROP TABLE IF EXISTS `user_activity`');
+        $this->addSql('DROP TABLE IF EXISTS `user_session`');
+        $this->addSql('DROP TABLE IF EXISTS `user_meta_info`');
+        $this->addSql('DROP TABLE IF EXISTS `user`');
 
     }
 }

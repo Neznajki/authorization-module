@@ -1,3 +1,6 @@
 jsonRpc:
-    path: /jsonRpc
-    controller: App\Controller\TestController::testApiAction
+    resource: '@JsonRpcServerBundle/Resources/config/routing.yaml'
+
+controllers:
+    resource: '../src/Controller/'
+    type:     annotation

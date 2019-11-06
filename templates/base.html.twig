@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>{% block title %}Welcome!{% endblock %}</title>
+        {% block stylesheets %}{% endblock %}
+        <script type="text/javascript" src="{{ asset('jquery-3.4.1.min.js', 'js') }}"></script>
+        <script type="text/javascript" src="{{ asset('main.js', 'js') }}"></script>
+
+        <link rel="stylesheet" href="{{ asset('bootstrap.4.3.1.min.css', 'css') }}" />
+    </head>
+    <body>
+        {% block body %}{% endblock %}
+        {% block javascripts %}{% endblock %}
+    </body>
+</html>

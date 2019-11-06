@@ -1,0 +1,28 @@
+services:
+    App\Repository\UserRepository:
+        class: App\Repository\UserRepository
+        factory: ['@doctrine.orm.container_repository_factory', getRepository]
+        arguments:
+            - '@doctrine.orm.default_entity_manager'
+            - 'App\Entity\User'
+
+    App\Repository\UserPendingLoginRepository:
+        class: App\Repository\UserPendingLoginRepository
+        factory: ['@doctrine.orm.container_repository_factory', getRepository]
+        arguments:
+            - '@doctrine.orm.default_entity_manager'
+            - 'App\Entity\UserPendingLogin'
+
+    App\Repository\UserMetaInfoRepository:
+        class: App\Repository\UserMetaInfoRepository
+        factory: ['@doctrine.orm.container_repository_factory', getRepository]
+        arguments:
+            - '@doctrine.orm.default_entity_manager'
+            - 'App\Entity\UserMetaInfo'
+
+    App\Repository\UserSessionRepository:
+        class: App\Repository\UserSessionRepository
+        factory: ['@doctrine.orm.container_repository_factory', getRepository]
+        arguments:
+            - '@doctrine.orm.default_entity_manager'
+            - 'App\Entity\UserSession'
