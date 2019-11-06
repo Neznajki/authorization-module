@@ -68,7 +68,7 @@ class SiteController extends AbstractController
 
         $fullUrl = sprintf(
             '%s/%s/%s',
-            $pendingData->getSessionTransferUrl(),
+            rtrim($pendingData->getSessionTransferUrl(), '/'),
             $pendingData->getId(),
             $pendingData->getUserMetaInfo()->getPhpSessionId()
         );
