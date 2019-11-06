@@ -1,8 +1,0 @@
-services:
-    _default:
-        autowire: true
-
-    Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface:
-        class: App\Service\PasswordEncryptService
-        arguments:
-            - '%env(API_SALT)%'
