@@ -3,9 +3,13 @@ module that will handle all authorization needs
 
 
 # installation
-* echo '127.0.0.1 authorization-module.local' | sudo tee -a /etc/hosts
-* git clone git@github.com:Neznajki/authorization-module.git
-* cd authorization-module
-* ./connect-docker.sh
-* composer install
-* ./bin/console d:m:m
+* bash
+```bash
+echo '127.0.0.1 authorization-module.local' | sudo tee -a /etc/hosts
+git clone git@github.com:Neznajki/authorization-module.git
+cd authorization-module
+./connect-docker.sh
+composer install
+./bin/console c:cl
+./bin/console d:m:m
+```
