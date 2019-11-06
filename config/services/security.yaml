@@ -6,5 +6,3 @@ services:
         class: App\Service\PasswordEncryptService
         arguments:
             - '%env(API_SALT)%'
-
-    '@security.token_storage'

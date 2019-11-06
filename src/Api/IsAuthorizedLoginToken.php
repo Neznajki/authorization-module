@@ -81,7 +81,7 @@ class IsAuthorizedLoginToken implements MethodHandlerInterface
         $pendingLogin->setLastRefreshTime(new DateTime());
         $this->pendingLoginRepository->save($pendingLogin);
 
-        return ['success' => 1];
+        return ['success' => 1,'user' => $pendingLogin->getUserSession()->getUser(), "tokenExpiresIn" => 9999999 ];
     }
 
     /**
