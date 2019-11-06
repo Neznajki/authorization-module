@@ -41,7 +41,7 @@ class UserMetaInfoRepository extends EntityRepository
         ]);
 
         if ($savedMetaInfo) {
-            if (! $savedMetaInfo->isSame($metaInfo)) {
+            if (! $savedMetaInfo->isEqualTo($metaInfo)) {
                 //TODO to reduce this exception we can make table with custom hash generated. it won't have much records, so table scan on large fields won't deliver performance issues
                 throw new RuntimeException('duplicate hash detected');
             }

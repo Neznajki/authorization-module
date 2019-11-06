@@ -1,11 +1,12 @@
 <?php
+
 use App\Kernel;
 use Symfony\Component\Debug\Debug;
 use Symfony\Component\HttpFoundation\Request;
 
 require dirname(__DIR__) . '/config/bootstrap.php';
 
-if($_SERVER['HTTP_X_FORWARDED_PROTO'] == 'https')
+if(! empty($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] == 'https')
 {
     $_SERVER['HTTPS'] = 'on';
     $_SERVER['SERVER_PORT'] = 443;

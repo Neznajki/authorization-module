@@ -50,9 +50,9 @@ class UserMetaInfo
     private $userAgent;
 
     /**
-     * @return int
+     * @return int|null
      */
-    public function getId(): int
+    public function getId(): ?int
     {
         return $this->id;
     }
@@ -132,7 +132,7 @@ class UserMetaInfo
     /**
      * @return bool
      */
-    public function isSame(UserMetaInfo $metaInfo): bool
+    public function isEqualTo(UserMetaInfo $metaInfo): bool
     {
         return $this->getPhpSessionId() === $metaInfo->getPhpSessionId() &&
             $this->getIpAddress() === $metaInfo->getIpAddress() &&

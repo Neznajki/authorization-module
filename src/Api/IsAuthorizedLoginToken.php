@@ -63,7 +63,7 @@ class IsAuthorizedLoginToken implements MethodHandlerInterface
             $this->serverHelperService->getUserAgent($serverParams)
         );
 
-        if (! $pendingLogin->getUserMetaInfo()->isSame($expectingMetaData)) {
+        if (! $pendingLogin->getUserMetaInfo()->isEqualTo($expectingMetaData)) {
             throw new RpcMessageException('user session data changed session could be expired');
         }
 

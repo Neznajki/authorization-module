@@ -46,7 +46,7 @@ class User implements UserInterface, JsonSerializable
     private $created;
 
     /**
-     * @return int
+     * @return int|null
      */
     public function getId(): ?int
     {

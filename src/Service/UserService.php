@@ -102,7 +102,8 @@ class UserService
 
         /** @var User $user */
         $user = $this->tokenStorage->getToken()->getUser();
-        $userSession->setUser($user);
+
+        $userSession->setUser($this->userRepository->find($user->getId()));
         $userSession->setUserMetaInfo($pendingLogin->getUserMetaInfo());
         $userSession->setIsActive(true);
         $userSession->setCreated(new DateTime());

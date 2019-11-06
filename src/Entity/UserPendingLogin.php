@@ -67,7 +67,7 @@ class UserPendingLogin
     /**
      * @var UserMetaInfo
      *
-     * @ORM\ManyToOne(targetEntity="UserMetaInfo")
+     * @ORM\ManyToOne(targetEntity="UserMetaInfo", fetch="EAGER")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="user_meta_info_id", referencedColumnName="id")
      * })
@@ -85,9 +85,9 @@ class UserPendingLogin
     private $userSession;
 
     /**
-     * @return int
+     * @return int|null
      */
-    public function getId(): int
+    public function getId(): ?int
     {
         return $this->id;
     }

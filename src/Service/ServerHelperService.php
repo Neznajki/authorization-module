@@ -4,13 +4,14 @@
 namespace App\Service;
 
 
-use RuntimeException;
+use JsonRpcServerBundle\Exception\RpcMessageException;
 
 class ServerHelperService
 {
     /**
      * @param array $serverParams
      * @return string
+     * @throws RpcMessageException
      */
     public function getIpAddress(array $serverParams): string
     {
@@ -21,7 +22,7 @@ class ServerHelperService
         } elseif (! empty($serverParams['REMOTE_ADDR'])) {
             $ip = $serverParams['REMOTE_ADDR'];
         } else {
-            throw new RuntimeException('client IP address could not be detected');
+            throw new RpcMessageException('client IP address could not be detected');
         }
 
         return $ip;
@@ -30,13 +31,14 @@ class ServerHelperService
     /**
      * @param array $serverParams
      * @return string
+     * @throws RpcMessageException
      */
     public function getUserAgent(array $serverParams): string
     {
-        if (empty($serverParams['USER_AGENT'])) {
-            throw new RuntimeException('user agent could not be detected');
+        if (empty($serverParams['HTTP_USER_AGENT'])) {
+            throw new RpcMessageException('user agent could not be detected');
         }
 
-        return $serverParams['USER_AGENT'];
+        return $serverParams['HTTP_USER_AGENT'];
     }
 }

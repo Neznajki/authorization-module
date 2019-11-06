@@ -10,6 +10,7 @@ use App\Service\UserService;
 use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
 use Exception;
+use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Response;
@@ -21,18 +22,23 @@ class SiteController extends AbstractController
     protected $pendingLoginRepository;
     /** @var UserService */
     protected $userService;
+    /** @var LoggerInterface */
+    protected $logger;
 
     /**
      * SiteController constructor.
      * @param UserPendingLoginRepository $pendingLoginRepository
      * @param UserService $userService
+     * @param LoggerInterface $logger
      */
     public function __construct(
         UserPendingLoginRepository $pendingLoginRepository,
-        UserService $userService
+        UserService $userService,
+        LoggerInterface $logger
     ) {
         $this->pendingLoginRepository = $pendingLoginRepository;
         $this->userService = $userService;
+        $this->logger = $logger;
     }
 
     /**
@@ -68,9 +74,9 @@ class SiteController extends AbstractController
 
         $fullUrl = sprintf(
             '%s/%s/%s',
-            rtrim($pendingData->getSessionTransferUrl(), '/'),
-            $pendingData->getId(),
-            $pendingData->getUserMetaInfo()->getPhpSessionId()
+            preg_replace('/^https/', 'http', rtrim($pendingData->getSessionTransferUrl(), '/')),
+            $pendingData->getUserMetaInfo()->getPhpSessionId(),
+            $pendingData->getGeneratedToken()
         );
         $curl    = curl_init($fullUrl);
 
@@ -83,6 +89,11 @@ class SiteController extends AbstractController
         );
 
         $response = curl_exec($curl);
+
+        if ($response === false) {
+            $curlError = curl_error($curl);
+            $this->logger->error(sprintf('something gone wrong %s', $curlError));
+        }
 
         if ($response !== 'OK') {
             return new Response("invalid response from external service");

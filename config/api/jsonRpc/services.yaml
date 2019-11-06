@@ -3,3 +3,10 @@ services:
         autowire: true
         autoconfigure: true
 
+    App\Api\GetLoginPage:
+        class: App\Api\GetLoginPage
+        tags: [ 'json.rpc.server.method' ]
+
+    App\Api\IsAuthorizedLoginToken:
+        class: App\Api\IsAuthorizedLoginToken
+        tags: [ 'json.rpc.server.method' ]

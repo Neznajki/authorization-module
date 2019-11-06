@@ -53,7 +53,7 @@ class UserProvider implements UserProviderInterface
      */
     public function refreshUser(UserInterface $user)
     {
-        return $user;
+        return $this->userRepository->findOneBy(['login' => $user->getUsername()]);
     }
 
     /**
