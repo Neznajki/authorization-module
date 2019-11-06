@@ -50,6 +50,15 @@ class UserService
 
     /**
      * @param string $userName
+     * @return User|null
+     */
+    public function getUserByUserName(string $userName): ?User
+    {
+        return $this->userRepository->findOneBy(['login' => $userName]);
+    }
+
+    /**
+     * @param string $userName
      * @param string $password
      * @param string $repeatPassword
      * @throws Exception

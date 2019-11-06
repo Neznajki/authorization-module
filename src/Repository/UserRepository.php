@@ -13,13 +13,12 @@ use Doctrine\ORM\ORMException;
  * Class UserRepository
  * @package App\Repository
  *
- * @method User find($id, $lockMode = null, $lockVersion = null)
- * @method User findOneBy(array $criteria, array $orderBy = null)
+ * @method User|null find($id, $lockMode = null, $lockVersion = null)
+ * @method User|null findOneBy(array $criteria, array $orderBy = null)
  * @method User[] findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
 class UserRepository extends EntityRepository
 {
-
     /**
      * @param User $user
      * @return User

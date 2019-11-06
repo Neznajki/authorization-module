@@ -1,27 +1,41 @@
 $(function () {
+    let $inputEmail = $('#inputEmail');
+
+    let registration = new Registration(
+        $inputEmail,
+        $('#inputPassword'),
+        $('#inputPasswordRepeat')
+    );
+    let emailValidationTimerId;
+
     $('#registerForm').on('keypress', function (e) {
         if(e.which === 13) {
             $('#confirmButton').trigger('click');
         }
     });
 
+    $inputEmail.on('keypress', function () {
+        registration.clearErrors();
+
+        if (registration.isEmailValid()) {
+            return;
+        }
+
+        emailValidationTimerId = setTimeout(() => {
+            // let $inputEmail = $(this);
+            emailValidationTimerId = null;
+        }, 500);
+
+    });
+
     $('#confirmButton').on('click', function() {
-        if (! $('#inputEmail').val().match(/[a-z][a-z0-9]{3,}/))
-        {
-            error('login should be at least 4 characters long and should begin with letter');
-            return;
-        }
+        let promise = new Promise(registration.validate);
 
-        let password = $('#inputPassword').val();
-        if (! password) {
-            error('password should contain at least 1 symbol');
-            return;
-        }
-        if (password !== $('#inputPasswordRepeat').val()) {
-            error('passwords does not match');
-            return;
-        }
+        promise.then(function () {
+            $('#registerForm').submit();
+        }).catch(function (reason) {
+            error(reason.error);
+        });
 
-        $('#registerForm').submit();
     });
 });

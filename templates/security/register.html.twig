@@ -7,6 +7,10 @@
         <div id="errorContainer" class="alert alert-danger" {% if error is empty %} style="display: none;" {% endif %}>
             {% if error %} {{ error.messageData }} {% endif %}</div>
 
+        <div id="incorrectEmailError" class="alert alert-danger" style="display: none;">email should be valid (example: example@domain.lv)</div>
+        <div id="incorrectPasswordError" class="alert alert-danger" style="display: none;">password should contain at least 1 symbol</div>
+        <div id="incorrectPasswordRepeatError" class="alert alert-danger" style="display: none;">passwords does not match</div>
+
         <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
         <label for="inputEmail" class="sr-only">Login</label>
         <input type="text" value="{{ last_username }}" name="login" id="inputEmail" class="form-control" placeholder="login" required autofocus>
@@ -36,4 +40,5 @@
     </form>
 
     <script type="text/javascript" src="{{ asset('js/register.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('js/objects/Registration.js') }}"></script>
 {% endblock %}

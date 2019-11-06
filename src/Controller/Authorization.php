@@ -4,11 +4,13 @@
 namespace App\Controller;
 
 
+use App\Exception\ValidateException;
 use App\Security\LoginFormAuthenticator;
 use App\Service\UserService;
 use Exception;
 use InvalidArgumentException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -36,10 +38,9 @@ class Authorization extends AbstractController
         UserService $userService,
         AuthorizationCheckerInterface $authorizationChecker,
         LoginFormAuthenticator $loginFormAuthenticator
-    )
-    {
-        $this->userService = $userService;
-        $this->authorizationChecker = $authorizationChecker;
+    ) {
+        $this->userService            = $userService;
+        $this->authorizationChecker   = $authorizationChecker;
         $this->loginFormAuthenticator = $loginFormAuthenticator;
     }
 
@@ -63,6 +64,7 @@ class Authorization extends AbstractController
         $error = $authenticationUtils->getLastAuthenticationError();
         // last username entered by the user
         $lastUsername = $authenticationUtils->getLastUsername();
+
         return $this->render(
             'security/login.html.twig',
             [
@@ -81,7 +83,11 @@ class Authorization extends AbstractController
     public function register(Request $request): Response
     {
         $errorData = [];
-        $userName = '';
+        $userName  = '';
+
+        if ($this->authorizationChecker->isGranted('ROLE_USER')) {
+            return $this->loginFormAuthenticator->getSuccessLoginPage();
+        }
 
         if ($request->getRealMethod() === 'POST') {
             $userName = $request->get('login', '');
@@ -100,7 +106,7 @@ class Authorization extends AbstractController
                 return new RedirectResponse('/login');
             } catch (InvalidArgumentException $exception) {
                 $errorData['messageData'] = $exception->getMessage();
-                $errorData['messageKey'] = $exception->getCode();
+                $errorData['messageKey']  = $exception->getCode();
             }
         }
 
@@ -112,6 +118,35 @@ class Authorization extends AbstractController
                 'error'         => $errorData,
             ]
         );
+    }
+
+    /**
+     * @Route("/validate/register/{loginEmail}/{password}/{passwordRepeat}", name="app_validate_register")
+     *
+     * @param string $loginEmail
+     * @param string $password
+     * @param string $passwordRepeat
+     * @return JsonResponse
+     * @throws ValidateException
+     */
+    public function validateRegisterUser(
+        string $loginEmail,
+        /** @noinspection PhpUnusedParameterInspection */
+        string $password = '',
+        /** @noinspection PhpUnusedParameterInspection */
+        string $passwordRepeat = ''
+    ): JsonResponse {
+        if (! preg_match('/[a-z0-9.]+@[a-z0-9]+\\.[a-z]+/i', $loginEmail)) {
+            throw new ValidateException('email should be valid (example: example@domain.lv)');
+        }
+
+        if ($this->userService->getUserByUserName($loginEmail)) {
+            throw new ValidateException(sprintf('email %s already in use', $loginEmail));
+        }
+
+        //could be additional email validation like checking if on domain is SMTP server, asking smpt server about do he know him and something like that (DLC is for additional price)
+
+        return new JsonResponse(['success' => 1]);
     }
 
     /**
